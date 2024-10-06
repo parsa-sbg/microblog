@@ -12,6 +12,8 @@ export default function Home() {
 
     <div className="h-screen pt-[56.96px] md:pt-[60.96px] container">
 
+      <Header />
+
       <div className="h-full py-4 gap-4 grid grid-cols-12 grid-rows-1 relative">
 
         <SideBar />

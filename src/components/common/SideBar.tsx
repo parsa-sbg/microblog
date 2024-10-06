@@ -21,8 +21,8 @@ function SideBar() {
                 </div>
 
                 <div className='flex flex-col gap-2 pb-2 mb-2 border-b-2'>
-                    <Link href={'/userposts'} className='bg-gray-300 rounded-full transition-all py-1 px-4 hover:bg-gray-400'>home</Link>
-                    <Link href={'/'} className='bg-gray-300 rounded-full transition-all py-1 px-4 hover:bg-gray-400'>my posts</Link>
+                    <Link href={'/'} className='bg-gray-300 rounded-full transition-all py-1 px-4 hover:bg-gray-400'>home</Link>
+                    <Link href={'/userposts'} className='bg-gray-300 rounded-full transition-all py-1 px-4 hover:bg-gray-400'>my posts</Link>
                 </div>
 
                 <button className='md:hidden w-full text-left bg-gray-300 rounded-full transition-all py-1 px-4 hover:bg-gray-400'>logout</button>
