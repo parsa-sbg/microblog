@@ -16,7 +16,7 @@ const config: Config = {
         vazir: 'vazir'
       },
       colors: {
-        main: '#0044ca',
+        main: '#4584ff',
       },
     },
   },
