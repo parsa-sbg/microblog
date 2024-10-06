@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 export default function App({ Component, pageProps }: AppProps) {
 
   return (
-    <div className="container">
+    <div className="container font-vazir">
       <Component {...pageProps} />
     </div>
   )

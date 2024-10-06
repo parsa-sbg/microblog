@@ -10,11 +10,13 @@ const config: Config = {
     extend: {
       container:{
         center: true,
-        padding: '8px'
+        padding: '5px'
+      },
+      fontFamily: {
+        vazir: 'vazir'
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        main: '#0044ca',
       },
     },
   },
