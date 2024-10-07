@@ -1,9 +1,6 @@
-import mongoose, { Document, Model } from "mongoose";
+import UserInterface from "@/types/userType";
+import mongoose, { Model } from "mongoose";
 
-interface UserInterface extends Document {
-    username: string,
-    password: string
-}
 
 const userSchema = new mongoose.Schema({
     username : {

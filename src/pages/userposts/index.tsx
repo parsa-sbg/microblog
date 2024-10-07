@@ -1,12 +1,14 @@
 import Header from '@/components/common/Header'
 import SideBar from '@/components/common/SideBar'
 import { useMobileMenu } from '@/contexts/MobileMenuContext'
+import { GetServerSideProps } from 'next'
 import React from 'react'
+import jwt from 'jsonwebtoken'
 
-function UserPosts() {
+export default function UserPosts() {
 
 
-    const {isMobileMenuOpen} = useMobileMenu()
+    const { isMobileMenuOpen } = useMobileMenu()
 
 
     return (
@@ -25,8 +27,28 @@ function UserPosts() {
             </div>
 
         </div>
-        
+
     )
 }
 
-export default UserPosts
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+
+    const { token } = context.req.cookies
+    if (!token) return { props: { user: null } }
+
+
+    const secretkey = process.env.PRIVATEKEY
+    if (!secretkey) throw new Error('privete key is not defined')
+
+
+    const decoded = jwt.verify(token, secretkey)
+    console.log(decoded);
+
+
+    return {
+        props: {
+
+        }
+    }
+}
