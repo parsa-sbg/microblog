@@ -24,7 +24,9 @@ function UserPosts() {
 
             </div>
 
-        </div>)
+        </div>
+        
+    )
 }
 
 export default UserPosts
