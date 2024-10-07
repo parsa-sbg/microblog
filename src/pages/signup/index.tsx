@@ -23,6 +23,7 @@ function SignUp() {
                         <span className='text-sm block'>Just some details to get you in.!</span>
                     </div>
 
+                    <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='name' type="text" />
                     <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Username' type="text" />
                     <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Password' type="text" />
 
@@ -36,7 +37,7 @@ function SignUp() {
                 <div className='w-40 h-40 absolute -bottom-10 -right-20 bg-main z-10 rounded-full'></div>
             </div>
 
-            <Link href={'/'} className='fixed top-2 left-2 rounded-full p-3 md:hidden z-30 dark:bg-bgdark border-[3px] dark:border-gray-300 flex items-center gap-2'>
+            <Link href={'/'} className='fixed top-2 left-2 rounded-full p-3 md:hidden z-30 dark:bg-bgdark border-[1px] dark:border-gray-300 flex items-center gap-2'>
                 <FaArrowLeft size={20} />
             </Link>
         </div>

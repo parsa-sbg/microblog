@@ -37,7 +37,7 @@ function SignIn() {
                 <div className='w-40 h-40 absolute -bottom-10 -right-20 bg-gradient-to-tl from-main to-secondarydark z-10 rounded-full'></div>
             </div>
 
-            <Link href={'/'} className='fixed top-2 left-2 rounded-full p-3 md:hidden z-30 dark:bg-bgdark border-[3px] dark:border-gray-300 flex items-center gap-2'>
+            <Link href={'/'} className='fixed top-2 left-2 rounded-full p-3 md:hidden z-30 dark:bg-bgdark border-[1px] dark:border-gray-300 flex items-center gap-2'>
                 <FaArrowLeft size={20} />
             </Link>
         </div>
