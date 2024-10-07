@@ -27,7 +27,7 @@ function SignUp() {
                     <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Username' type="text" />
                     <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Password' type="text" />
 
-                    <button className='w-full rounded-md bg-main min-h-10'>Login</button>
+                    <button className='w-full rounded-md bg-main min-h-10'>Register</button>
 
                     <p>Already Registered? <Link className='font-semibold' href={'/signin'}>Login</Link></p>
 
