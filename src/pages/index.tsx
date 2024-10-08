@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import UserInterface from "@/types/userType";
 import { userModel } from "@/models/userModel";
+import LogOutModal from "@/components/common/logout/LogOutModal";
 
 type HomeProps = {
   user: UserInterface | null
@@ -30,7 +31,7 @@ export default function Home({ user }: HomeProps) {
         </div>
 
       </div>
-
+      <LogOutModal />
     </div>
 
   );

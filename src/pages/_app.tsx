@@ -1,3 +1,4 @@
+import { LogOutModalContextProvider } from "@/contexts/LogOutModalContext";
 import { MobileMenuContextProvider } from "@/contexts/MobileMenuContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
@@ -8,7 +9,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className="bg-[#1E1E1E] overflow-hidden dark">
       <div className="container font-vazir dark:text-gray-300">
         <MobileMenuContextProvider>
-          <Component {...pageProps} />
+          <LogOutModalContextProvider>
+            <Component {...pageProps} />
+          </LogOutModalContextProvider>
         </MobileMenuContextProvider>
       </div>
     </div>

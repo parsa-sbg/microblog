@@ -1,7 +1,7 @@
 import React from 'react'
 import { CiCirclePlus } from "react-icons/ci";
 import Logo from './Logo';
-import LogOutBtn from './LogOutBtn';
+import LogOutBtn from './logout/LogOutBtn';
 import { useMobileMenu } from '@/contexts/MobileMenuContext';
 import UserInterface from '@/types/userType';
 import Link from 'next/link';
