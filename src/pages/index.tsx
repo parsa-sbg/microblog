@@ -2,16 +2,15 @@ import Header from "@/components/common/Header";
 import SideBar from "@/components/common/SideBar";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { GetServerSideProps } from "next";
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import UserInterface from "@/types/userType";
+import { userModel } from "@/models/userModel";
 
 type HomeProps = {
   user: UserInterface | null
 }
 
 export default function Home({ user }: HomeProps) {
-
-
 
   const { isMobileMenuOpen } = useMobileMenu()
 
@@ -48,13 +47,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!secretkey) throw new Error('privete key is not defined')
 
 
-  const decoded = jwt.verify(token, secretkey)
+  const decoded = jwt.verify(token, secretkey) as JwtPayload
   console.log(decoded);
+
+
+
+  const user = await userModel.findOne({ username: decoded.username })
+  console.log(user);
 
 
   return {
     props: {
-
+      user: JSON.parse(JSON.stringify(user))
     }
   }
 }

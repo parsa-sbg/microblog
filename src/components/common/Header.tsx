@@ -15,7 +15,7 @@ function Header({ user }: headerProps) {
     const { toggleMobileMenu, isMobileMenuOpen } = useMobileMenu()
 
     return (
-        <div className='fixed left-0 right-0 top-0 md:rounded-md md:right-3 md:left-3 md:top-1 bg-opacity-30 bg-main min-h-14'>
+        <div className='fixed left-0 right-0 top-0 md:rounded-md md:right-3 md:left-3 md:top-1 !bg-opacity-30 dark:bg-main min-h-14'>
             <div className='container py-2 px-4 flex justify-between items-center gap-2'>
 
                 <div className='flex items-center gap-2 md:gap-5'>

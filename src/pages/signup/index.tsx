@@ -1,8 +1,81 @@
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 
+type inputsValuesType = {
+    name: string,
+    username: string,
+    password: string
+}
+
+type inputsErrorsType = {
+    name: boolean,
+    username: boolean,
+    password: boolean
+}
+
 function SignUp() {
+
+
+    const [inputsValues, setInputsValues] = useState<inputsValuesType>({ name: '', username: '', password: '' })
+    const [inputsErrors, setInputsErrors] = useState<inputsErrorsType>({ name: false, username: false, password: false })
+
+    const router = useRouter()
+
+
+    const inputsChangeHandler = (value: string, slug: 'username' | 'password' | 'name') => {
+        setInputsValues(prev => ({ ...prev, [slug]: value }))
+        setInputsErrors(prev => ({ ...prev, [slug]: false }))
+    }
+
+    const btnClickHandler = async () => {
+        let isAnyError = false
+
+
+        if (!inputsValues.name.trim() || inputsValues.name.length < 3) {
+            setInputsErrors(prev => ({ ...prev, name: true }))
+            isAnyError = true
+        }
+        if (!inputsValues.username.trim() || /\s/.test(inputsValues.username.trim())) {
+            setInputsErrors(prev => ({ ...prev, username: true }))
+            isAnyError = true
+        }
+        if (!inputsValues.password.trim() || /\s/.test(inputsValues.password.trim())) {
+            setInputsErrors(prev => ({ ...prev, password: true }))
+            isAnyError = true
+        }
+
+
+        if (isAnyError) return
+
+
+        const res = await fetch('/api/users/register', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: inputsValues.name.trim(),
+                username: inputsValues.username.trim(),
+                password: inputsValues.password.trim(),
+            })
+        })
+
+        const data = await res.json()
+
+        console.log('res => ', res);
+        console.log('data => ', data);
+
+        if (res.status == 422) {
+            setInputsErrors(prev => ({ ...prev, [data.targetError]: true }))
+        } else if (res.status == 201) {
+            router.replace('/')
+        }
+
+    }
+
+
     return (
         <div className='min-h-screen grid grid-cols-8'>
 
@@ -23,11 +96,11 @@ function SignUp() {
                         <span className='text-sm block'>Just some details to get you in.!</span>
                     </div>
 
-                    <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='name' type="text" />
-                    <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Username' type="text" />
-                    <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Password' type="text" />
+                    <input value={inputsValues.name} onChange={(e) => { inputsChangeHandler(e.target.value, 'name') }} className={`${inputsErrors.name && '!border-red-800'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='name' type="text" />
+                    <input value={inputsValues.username} onChange={(e) => { inputsChangeHandler(e.target.value, "username") }} className={`${inputsErrors.username && '!border-red-800'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Username' type="text" />
+                    <input value={inputsValues.password} onChange={(e) => { inputsChangeHandler(e.target.value, 'password') }} className={`${inputsErrors.password && '!border-red-800'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Password' type="text" />
 
-                    <button className='w-full rounded-md bg-main min-h-10'>Register</button>
+                    <button onClick={btnClickHandler} className='w-full rounded-md bg-main min-h-10'>Register</button>
 
                     <p>Already Registered? <Link className='font-semibold' href={'/signin'}>Login</Link></p>
 
