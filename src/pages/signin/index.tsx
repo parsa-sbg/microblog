@@ -1,9 +1,85 @@
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useState } from 'react'
 import { FaArrowLeft } from "react-icons/fa";
 
 
+type inputsValuesType = {
+    username: string,
+    password: string
+}
+
+type inputsErrorsType = {
+    username: boolean,
+    password: boolean
+}
+
 function SignIn() {
+
+
+    const [inputsValues, setInputsValues] = useState<inputsValuesType>({ username: '', password: '' })
+    const [inputsErrors, setInputsErrors] = useState<inputsErrorsType>({ username: false, password: false })
+
+    const router = useRouter()
+
+
+    const inputsChangeHandler = (value: string, slug: 'username' | 'password') => {
+        setInputsValues(prev => ({ ...prev, [slug]: value }))
+        setInputsErrors(prev => ({ ...prev, [slug]: false }))
+    }
+
+    const btnClickHandler = async () => {
+        let isAnyError = false
+
+
+        if (!inputsValues.username.trim() || /\s/.test(inputsValues.username.trim())) {
+            setInputsErrors(prev => ({ ...prev, username: true }))
+            isAnyError = true
+        }
+        if (inputsValues.password.length < 8 || !inputsValues.password.trim() || /\s/.test(inputsValues.password.trim())) {
+            setInputsErrors(prev => ({ ...prev, password: true }))
+            isAnyError = true
+        }
+
+
+        if (isAnyError) return
+
+
+        const res = await fetch('/api/users/login', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: inputsValues.username.trim(),
+                password: inputsValues.password.trim(),
+            })
+        })
+
+        const data = await res.json()
+
+        console.log('res => ', res);
+        console.log('data => ', data);
+
+
+        switch (res.status) {
+            case 404: {
+                setInputsErrors(prev => ({ ...prev, username: true }))
+                break
+            }
+            case 401: {
+                setInputsErrors(prev => ({ ...prev, password: true }))
+                break
+            }
+            case 200: {
+                router.replace('/')
+                break
+            }
+        }
+
+    }
+
+
     return (
         <div className='min-h-screen grid grid-cols-8'>
 
@@ -24,10 +100,10 @@ function SignIn() {
                         <span className='text-sm block'>Glad you’re back.!</span>
                     </div>
 
-                    <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Username' type="text" />
-                    <input className='bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3' placeholder='Password' type="text" />
+                    <input value={inputsValues.username} onChange={(e) => { inputsChangeHandler(e.target.value, 'username') }} className={`${inputsErrors.username && '!border-red-500'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Username' type="text" />
+                    <input value={inputsValues.password} onChange={(e) => { inputsChangeHandler(e.target.value, 'password') }} className={`${inputsErrors.password && '!border-red-500'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Password' type="text" />
 
-                    <button className='w-full rounded-md bg-gradient-to-r from-mainlight from-10% to-90% min-h-10 to-secondarydark'>Login</button>
+                    <button onClick={btnClickHandler} className='w-full rounded-md bg-gradient-to-r from-mainlight from-10% to-90% min-h-10 to-secondarydark'>Login</button>
 
                     <p>Don’t have an account ? <Link className='font-semibold' href={'/signup'}>Signup</Link></p>
 
