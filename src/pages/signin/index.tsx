@@ -94,7 +94,7 @@ function SignIn() {
             </div>
 
             <div className='relative m-auto col-span-8 md:col-span-3 h-full w-full max-h-[500px] max-w-96'>
-                <div className='flex absolute top-0 bottom-0 right-0 left-0 backdrop-blur-md z-20 flex-col justify-center gap-4 h-full border border-opacity-30 rounded-md border-gray-300 px-5 py-10'>
+                <div className='flex absolute top-0 bottom-0 right-0 left-0 backdrop-blur-md bg-white dark:bg-transparent !bg-opacity-40 z-20 flex-col justify-center gap-4 h-full border border-opacity-30 rounded-md border-gray-800 dark:border-gray-300 px-5 py-10'>
                     <div className=''>
                         <h1 className='text-2xl'>Login</h1>
                         <span className='text-sm block'>Glad you’re back.!</span>

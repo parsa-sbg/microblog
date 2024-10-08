@@ -16,7 +16,7 @@ function SideBar({ user }: SideBarProps) {
 
     return (
         <div className={`${isMobileMenuOpen && 'translate-x-0 h-full'} absolute py-4 md:p-0 transition-all -translate-x-80 md:static md:!translate-x-0 rounded-md col-span-3 row-span-2`}>
-            <aside className={` dark:bg-main !bg-opacity-30 h-full rounded-md p-4 min-w-44`}>
+            <aside className={` dark:bg-main h-full rounded-md p-4 min-w-44`}>
                 <div className='border-b-2 pb-2 mb-2 flex items-center gap-2'>
                     <div className='bg-gray-300 p-2 rounded-full w-fit dark:bg-gray-700'>
                         <FaRegUser />
