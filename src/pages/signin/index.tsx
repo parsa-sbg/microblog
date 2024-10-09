@@ -19,6 +19,7 @@ function SignIn() {
 
     const [inputsValues, setInputsValues] = useState<inputsValuesType>({ username: '', password: '' })
     const [inputsErrors, setInputsErrors] = useState<inputsErrorsType>({ username: false, password: false })
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
 
@@ -43,6 +44,7 @@ function SignIn() {
 
 
         if (isAnyError) return
+        setIsLoading(true)
 
 
         const res = await fetch('/api/users/login', {
@@ -56,11 +58,7 @@ function SignIn() {
             })
         })
 
-        const data = await res.json()
-
-        console.log('res => ', res);
-        console.log('data => ', data);
-
+        setIsLoading(false)
 
         switch (res.status) {
             case 404: {
@@ -103,7 +101,12 @@ function SignIn() {
                     <input value={inputsValues.username} onChange={(e) => { inputsChangeHandler(e.target.value, 'username') }} className={`${inputsErrors.username && '!border-red-500'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Username' type="text" />
                     <input value={inputsValues.password} onChange={(e) => { inputsChangeHandler(e.target.value, 'password') }} className={`${inputsErrors.password && '!border-red-500'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Password' type="text" />
 
-                    <button onClick={btnClickHandler} className='w-full rounded-md bg-gradient-to-r from-mainlight from-10% to-90% min-h-10 to-secondarydark'>Login</button>
+                    <button onClick={btnClickHandler} className='w-full flex justify-center items-center rounded-md bg-gradient-to-r from-mainlight from-10% to-90% min-h-10 to-secondarydark'>
+                        {isLoading
+                            ? (<div className='animate-spin w-3 h-3 rounded-full border-r-2 border-white'></div>)
+                            : 'Login'
+                        }
+                    </button>
 
                     <p>Don’t have an account ? <Link className='font-semibold' href={'/signup'}>Signup</Link></p>
 

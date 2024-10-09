@@ -25,17 +25,17 @@ export default async function handler(
             const { username, password } = req.body
 
 
-            if (!username || username.length < 5 || /\s/.test(username)) return res.status(422).json({ message: 'username is not valid - username must be more than 5 letter', targetError: 'username' })
-            if (!password || password.length < 8 || /\s/.test(password)) return res.status(422).json({ message: 'password is not valid - password must be more tha 8 letter', targetError: 'password' })
+            if (!username || username.length < 5 || /\s/.test(username)) return res.status(404).json({ message: 'username is not valid - username must be more than 5 letter', targetError: 'username' })
+            if (!password || password.length < 8 || /\s/.test(password)) return res.status(401).json({ message: 'password is not valid - password must be more tha 8 letter', targetError: 'password' })
 
-
+            
 
             try {
                 const user = await userModel.findOne({ username })
 
-                if (!user) return res.status(404).json({ message: 'username is not correct.' })
+                if (!user) return res.status(404).json({ message: 'username is not correct.', targetError: 'username' })
 
-                if (user.password !== password) return res.status(401).json({ message: 'password is not correct.' })
+                if (user.password !== password) return res.status(401).json({ message: 'password is not correct.', targetError: 'password' })
 
                 const userToken = generateToken({ username: user.username })
 
@@ -49,9 +49,6 @@ export default async function handler(
                     }))
                     .status(200)
                     .json({ message: 'user loggedin successfully.' })
-
-
-
 
             } catch (err) {
                 console.error('internal server error , error => ', err)

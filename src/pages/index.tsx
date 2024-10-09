@@ -49,13 +49,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
   const decoded = jwt.verify(token, secretkey) as JwtPayload
-  console.log(decoded);
 
 
 
   const user = await userModel.findOne({ username: decoded.username })
-  console.log(user);
-
+  
 
   return {
     props: {

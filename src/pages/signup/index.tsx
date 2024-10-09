@@ -20,6 +20,8 @@ function SignUp() {
 
     const [inputsValues, setInputsValues] = useState<inputsValuesType>({ name: '', username: '', password: '' })
     const [inputsErrors, setInputsErrors] = useState<inputsErrorsType>({ name: false, username: false, password: false })
+    const [isLoading, setIsLoading] = useState(false)
+
 
     const router = useRouter()
 
@@ -48,6 +50,8 @@ function SignUp() {
 
 
         if (isAnyError) return
+        setIsLoading(true)
+
 
 
         const res = await fetch('/api/users/register', {
@@ -61,6 +65,9 @@ function SignUp() {
                 password: inputsValues.password.trim(),
             })
         })
+
+        setIsLoading(false)
+
 
         const data = await res.json()
 
@@ -100,7 +107,12 @@ function SignUp() {
                     <input value={inputsValues.username} onChange={(e) => { inputsChangeHandler(e.target.value, "username") }} className={`${inputsErrors.username && '!border-red-800'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Username' type="text" />
                     <input value={inputsValues.password} onChange={(e) => { inputsChangeHandler(e.target.value, 'password') }} className={`${inputsErrors.password && '!border-red-800'} bg-transparent border outline-none focus:border-mainlight transition-all dark:border-gray-300 w-full rounded-md min-h-10 py-1 px-3`} placeholder='Password' type="text" />
 
-                    <button onClick={btnClickHandler} className='w-full rounded-md bg-main min-h-10'>Register</button>
+                    <button onClick={btnClickHandler} className='w-full flex justify-center items-center rounded-md bg-main min-h-10'>
+                        {isLoading
+                            ? (<div className='animate-spin w-3 h-3 rounded-full border-r-2 border-white'></div>)
+                            : 'Register'
+                        }
+                    </button>
 
                     <p>Already Registered? <Link className='font-semibold' href={'/signin'}>Login</Link></p>
 
