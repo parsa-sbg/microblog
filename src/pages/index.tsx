@@ -1,19 +1,17 @@
 import Header from "@/components/common/Header";
 import SideBar from "@/components/common/SideBar";
-import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { GetServerSideProps } from "next";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import UserInterface from "@/types/userType";
 import { userModel } from "@/models/userModel";
 import LogOutModal from "@/components/common/logout/LogOutModal";
+import PostList from "@/components/common/PostList";
 
 type HomeProps = {
   user: UserInterface | null
 }
 
 export default function Home({ user }: HomeProps) {
-
-  const { isMobileMenuOpen } = useMobileMenu()
 
 
   return (
@@ -26,9 +24,8 @@ export default function Home({ user }: HomeProps) {
 
         <SideBar user={user} />
 
-        <div className={`${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 bg-green-500 rounded-md`}>
-          <h1>home page</h1>
-        </div>
+        <PostList />
+
 
       </div>
       <LogOutModal />

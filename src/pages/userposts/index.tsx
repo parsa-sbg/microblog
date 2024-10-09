@@ -7,6 +7,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import LogOutModal from '@/components/common/logout/LogOutModal'
 import UserInterface from '@/types/userType'
 import { userModel } from '@/models/userModel'
+import PostList from '@/components/common/PostList'
 
 type userPostsProps = {
     user: UserInterface | null
@@ -27,9 +28,7 @@ export default function UserPosts({ user }: userPostsProps) {
 
                 <SideBar user={user} />
 
-                <div className={`${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 bg-yellow-500 rounded-md`}>
-                    <h1>home page</h1>
-                </div>
+                <PostList />
 
             </div>
             <LogOutModal />
