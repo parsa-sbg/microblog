@@ -37,15 +37,15 @@ function Header({ user }: headerProps) {
 
                 {user ? (
                     // create new post btn
-                    <button className='flex items-center gap-2 dark:text-gray-300 text-main font-bold bg-gray-300 dark:bg-gray-700 rounded-full p-2'>
+                    <button className='flex items-center gap-2 dark:text-gray-300 text-main font-bold bg-gray-300 dark:bg-gray-700 rounded-md p-2'>
                         <CiCirclePlus strokeWidth={1} size={25} />
                         create
                     </button>
                 ) : (
                     // login / register btns
                     <div>
-                        <Link href={'/signin'} className=' inline-block transition-all hover:scale-105 hover:-translate-x-0.5 font-bold bg-gray-300 dark:bg-gray-700 rounded-l-full p-2 mr-0.5'>sign in</Link>
-                        <Link href={'/signup'} className=' inline-block transition-all hover:scale-105 hover:translate-x-0.5 font-bold bg-gray-300 dark:bg-gray-700 rounded-r-full p-2'>sign up</Link>
+                        <Link href={'/signin'} className=' inline-block transition-all hover:scale-105 hover:-translate-x-0.5 font-bold bg-gray-300 dark:bg-gray-700 rounded-l-md p-2 mr-0.5'>sign in</Link>
+                        <Link href={'/signup'} className=' inline-block transition-all hover:scale-105 hover:translate-x-0.5 font-bold bg-gray-300 dark:bg-gray-700 rounded-r-md p-2'>sign up</Link>
                     </div>
                 )}
 

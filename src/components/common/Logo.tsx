@@ -2,7 +2,7 @@ import React from 'react'
 
 function Logo() {
     return (
-        <div className='bg-black rounded-full w-32 py-2 px-4'>
+        <div className='bg-black rounded-md w-32 py-2 px-4'>
             <svg className='w-full' viewBox="0 0 1500 348" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_210_21)">
                     <g clipPath="url(#clip1_210_21)">

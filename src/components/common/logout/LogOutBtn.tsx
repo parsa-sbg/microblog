@@ -8,7 +8,7 @@ function LogOutBtn() {
 
     return (
         <div className='z-50'>
-            <button onClick={showLogOutModal} className='hidden md:flex items-center gap-2 bg-gray-300 dark:bg-gray-700 rounded-full p-2'>
+            <button onClick={showLogOutModal} className='hidden md:flex items-center gap-2 bg-gray-300 dark:bg-gray-700 rounded-md p-2'>
                 <BiLogOut />
                 log out
             </button>
