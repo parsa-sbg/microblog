@@ -1,7 +1,9 @@
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 type inputsValuesType = {
     name: string,
@@ -130,3 +132,28 @@ function SignUp() {
 }
 
 export default SignUp
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+    const { token } = context.req.cookies
+    if (!token) return { props: {} }
+
+    const secretkey = process.env.PRIVATEKEY
+    if (!secretkey) throw new Error('privete key is not defined')
+
+
+    try {
+        jwt.verify(token, secretkey) as JwtPayload
+
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    } catch {
+        return {
+            props: {}
+        }
+    }
+}

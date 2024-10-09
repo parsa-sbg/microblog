@@ -16,9 +16,6 @@ type userPostsProps = {
 export default function UserPosts({ user }: userPostsProps) {
 
 
-    const { isMobileMenuOpen } = useMobileMenu()
-
-
     return (
         <div className="h-screen pt-[56.96px] md:pt-[60.96px] container">
 
@@ -57,7 +54,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             }
         }
     } catch {
-        throw new Error('token is not valid ')
+        return {
+            props: {
+                user: null
+            }
+        }
     }
-
 }

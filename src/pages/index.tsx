@@ -54,7 +54,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   } catch {
-    throw new Error('token is not valid ')
+    return {
+      props: {
+        user: null
+      }
+    }
   }
-
 }
