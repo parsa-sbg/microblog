@@ -48,19 +48,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const secretkey = process.env.PRIVATEKEY
     if (!secretkey) throw new Error('privete key is not defined')
 
+    try {
+        const decoded = jwt.verify(token, secretkey) as JwtPayload
+        const user = await userModel.findOne({ username: decoded.username })
 
-    const decoded = jwt.verify(token, secretkey) as JwtPayload
-    console.log(decoded);
-
-
-
-    const user = await userModel.findOne({ username: decoded.username })
-    console.log(user);
-
-
-    return {
-        props: {
-            user: JSON.parse(JSON.stringify(user))
+        return {
+            props: {
+                user: JSON.parse(JSON.stringify(user))
+            }
         }
+    } catch {
+        throw new Error('token is not valid ')
     }
+
 }
