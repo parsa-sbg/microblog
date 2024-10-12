@@ -1,4 +1,4 @@
-import Header from '@/components/common/Header'
+import Header from '@/components/common/Header/Header'
 import SideBar from '@/components/common/SideBar'
 import { GetServerSideProps } from 'next'
 import React from 'react'
@@ -10,8 +10,8 @@ import PostList from '@/components/common/PostList'
 import { postModel } from '@/models/postModel'
 import PostInterface from '@/types/postType'
 import { useMobileMenu } from '@/contexts/MobileMenuContext'
-import Link from 'next/link'
-import LoginRegisterBtns from '@/components/common/LoginRegisterBtns'
+import LoginRegisterBtns from '@/components/common/Header/LoginRegisterBtns'
+import CreatePostModal from '@/components/common/CreatePostModal/CreatePostModal'
 
 type userPostsProps = {
     user: UserInterface | null,
@@ -42,6 +42,8 @@ export default function UserPosts({ user, userPosts }: userPostsProps) {
 
             </div>
             <LogOutModal />
+            <CreatePostModal userId={user?._id} />
+
         </div>
 
     )

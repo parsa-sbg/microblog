@@ -1,3 +1,4 @@
+import { CreatePostModalContextProvider } from "@/contexts/CreatePostModalContext";
 import { LogOutModalContextProvider } from "@/contexts/LogOutModalContext";
 import { MobileMenuContextProvider } from "@/contexts/MobileMenuContext";
 import "@/styles/globals.css";
@@ -11,7 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className="container font-vazir dark:text-gray-300 text-clip">
           <MobileMenuContextProvider>
             <LogOutModalContextProvider>
+            <CreatePostModalContextProvider>
               <Component {...pageProps} />
+            </CreatePostModalContextProvider>
             </LogOutModalContextProvider>
           </MobileMenuContextProvider>
         </div>

@@ -1,11 +1,10 @@
 import React from 'react'
-import { CiCirclePlus } from "react-icons/ci";
-import Logo from './Logo';
-import LogOutBtn from './logout/LogOutBtn';
+import Logo from '../Logo';
+import LogOutBtn from '../logout/LogOutBtn';
 import { useMobileMenu } from '@/contexts/MobileMenuContext';
 import UserInterface from '@/types/userType';
-import Link from 'next/link';
 import LoginRegisterBtns from './LoginRegisterBtns';
+import CreatePostBtn from './CreatePostBtn';
 
 type headerProps = {
     user: UserInterface | null
@@ -38,10 +37,7 @@ function Header({ user }: headerProps) {
 
                 {user ? (
                     // create new post btn
-                    <button className='flex items-center gap-2 dark:text-gray-300 text-main font-bold bg-gray-300 dark:bg-gray-700 rounded-md p-2'>
-                        <CiCirclePlus strokeWidth={1} size={25} />
-                        create
-                    </button>
+                    <CreatePostBtn />
                 ) : (
                     // login / register btns
                     <LoginRegisterBtns />

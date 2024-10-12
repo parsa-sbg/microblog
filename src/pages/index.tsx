@@ -1,4 +1,4 @@
-import Header from "@/components/common/Header";
+import Header from "@/components/common/Header/Header";
 import SideBar from "@/components/common/SideBar";
 import { GetServerSideProps } from "next";
 import jwt, { JwtPayload } from 'jsonwebtoken'
@@ -8,6 +8,7 @@ import LogOutModal from "@/components/common/logout/LogOutModal";
 import PostList from "@/components/common/PostList";
 import { postModel } from "@/models/postModel";
 import PostInterface from "@/types/postType";
+import CreatePostModal from "@/components/common/CreatePostModal/CreatePostModal";
 
 type HomeProps = {
   user: UserInterface | null
@@ -31,6 +32,7 @@ export default function Home({ user, allPosts }: HomeProps) {
 
       </div>
       <LogOutModal />
+      <CreatePostModal userId={user?._id} />
     </div>
 
   );

@@ -5,7 +5,7 @@ import mongoose, { Model } from "mongoose";
 const postSchema = new mongoose.Schema<PostInterface>({
     title: {
         type: String,
-        required: true
+        required: false
     },
     
     body: {
