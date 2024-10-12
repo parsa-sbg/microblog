@@ -20,10 +20,10 @@ export default async function handler(
 
     const newPostTitle = req.body.title
     const newPostBody = req.body.body
-    const userToken = req.query.token
+    const userToken = req.cookies.token
 
 
-    if (!userToken || Array.isArray(userToken)) return res.status(422).json({ message: 'token is not valid' })
+    if (!userToken) return res.status(422).json({ message: 'token is not valid' })
 
     const secretkey = process.env.PRIVATEKEY
     if (!secretkey) throw new Error('privete key is not defined')
@@ -35,7 +35,6 @@ export default async function handler(
     try {
         connectToDataBase()
         const decoded = jwt.verify(userToken, secretkey) as JwtPayload
-        console.log(decoded);
 
         const user = await userModel.findOne({username : decoded.username})
         if (!user) return res.status(404).json({message: 'user not found'})
