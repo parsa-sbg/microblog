@@ -12,6 +12,7 @@ import PostInterface from '@/types/postType'
 import { useMobileMenu } from '@/contexts/MobileMenuContext'
 import LoginRegisterBtns from '@/components/common/Header/LoginRegisterBtns'
 import CreatePostModal from '@/components/common/CreatePostModal/CreatePostModal'
+import { connectToDataBase } from '@/utils/db'
 
 type userPostsProps = {
     user: UserInterface | null,
@@ -60,16 +61,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (!secretkey) throw new Error('privete key is not defined')
 
     try {
+
+        connectToDataBase()
         const decoded = jwt.verify(token, secretkey) as JwtPayload
         const user = await userModel.findOne({ username: decoded.username })
 
         // get user posts
-        const userPosts = await postModel.find({ user: user?.id })
+        const userPosts = await postModel.find({ user: user?._id })
 
         return {
             props: {
                 user: JSON.parse(JSON.stringify(user)),
-                userPosts
+                userPosts: JSON.parse(JSON.stringify(userPosts))
             }
         }
     } catch {

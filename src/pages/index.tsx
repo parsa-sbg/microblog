@@ -9,6 +9,7 @@ import PostList from "@/components/common/PostList";
 import { postModel } from "@/models/postModel";
 import PostInterface from "@/types/postType";
 import CreatePostModal from "@/components/common/CreatePostModal/CreatePostModal";
+import { connectToDataBase } from "@/utils/db";
 
 type HomeProps = {
   user: UserInterface | null
@@ -39,8 +40,10 @@ export default function Home({ user, allPosts }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  connectToDataBase()
 
   // get all posts
+
   const allPosts = await postModel.find({})
 
   const { token } = context.req.cookies
@@ -58,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),
-        allPosts,
+        allPosts: JSON.parse(JSON.stringify(allPosts)),
       }
     }
   } catch {
