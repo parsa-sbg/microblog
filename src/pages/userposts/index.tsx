@@ -41,7 +41,7 @@ export default function UserPosts({ user, userPosts }: userPostsProps) {
                 <SideBar user={user} />
 
                 {user
-                    ? <PostList noPostMessage='you have no posts ! create one .' posts={posts} />
+                    ? <PostList getPosts={getUserPosts} pageTitle='your posts' noPostMessage='you have no posts ! create one .' posts={posts} />
                     : <div className={`flex flex-col items-center justify-center ${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 xl:col-span-10`}>
                         <span className='mb-2'>You are not logged in yet.</span>
                         <LoginRegisterBtns />

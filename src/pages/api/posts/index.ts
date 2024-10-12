@@ -14,7 +14,7 @@ export default async function handler(
     res: NextApiResponse<Data>,
 ) {
 
-    if (req.method !== "GET") return res.status(405).json({message: 'this methid is nnot valid.'})
+    if (req.method !== "GET") return res.status(405).json({message: 'this methid is not valid.'})
 
 
     connectToDataBase()

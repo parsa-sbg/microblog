@@ -37,7 +37,7 @@ export default function Home({ user, allPosts }: HomeProps) {
 
         <SideBar user={user} />
 
-        <PostList noPostMessage="there is no posts yet !" posts={posts} />
+        <PostList getPosts={getAllPosts} pageTitle="all posts" noPostMessage="there is no posts yet !" posts={posts} />
 
       </div>
       <LogOutModal />

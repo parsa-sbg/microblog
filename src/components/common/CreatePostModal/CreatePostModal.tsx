@@ -5,10 +5,10 @@ import { FaCheckCircle } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 
 type CreatePostModalProps = {
-    getPosts : () => void
+    getPosts: () => void
 }
 
-function CreatePostModal({getPosts}:CreatePostModalProps) {
+function CreatePostModal({ getPosts }: CreatePostModalProps) {
 
     const { isModalOpen, hideCreatePostModal } = useCreatePostModal()
     const [title, setTitlte] = useState('')
@@ -72,7 +72,7 @@ function CreatePostModal({getPosts}:CreatePostModalProps) {
 
                 <div className='flex justify-center gap-3'>
                     <button onClick={closeModal} className='max-w-52 w-full py-2 px-5 text-xl bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30'>cancel</button>
-                    <button onClick={craetePost} className={`mini-h-full flex justify-center items-center max-w-52 w-full py-2 px-5 text-xl bg-mainlight rounded-md`}>
+                    <button onClick={creationstatus == 'notSent' ? craetePost : () => { }} className={`mini-h-full flex justify-center items-center max-w-52 w-full py-2 px-5 text-xl bg-mainlight rounded-md`}>
 
                         {creationstatus == 'notSent' ? 'create'
                             : creationstatus == 'loading' ? <div className='animate-spin w-3 h-3 rounded-full border-r-2 border-white'></div>
