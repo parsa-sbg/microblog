@@ -6,12 +6,15 @@ import UserInterface from "@/types/userType";
 import { userModel } from "@/models/userModel";
 import LogOutModal from "@/components/common/logout/LogOutModal";
 import PostList from "@/components/common/PostList";
+import { postModel } from "@/models/postModel";
+import PostInterface from "@/types/postType";
 
 type HomeProps = {
   user: UserInterface | null
+  allPosts: PostInterface[]
 }
 
-export default function Home({ user }: HomeProps) {
+export default function Home({ user, allPosts }: HomeProps) {
 
 
   return (
@@ -24,8 +27,7 @@ export default function Home({ user }: HomeProps) {
 
         <SideBar user={user} />
 
-        <PostList />
-
+        <PostList noPostMessage="there is no posts yet !" posts={allPosts} />
 
       </div>
       <LogOutModal />
@@ -36,9 +38,11 @@ export default function Home({ user }: HomeProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
+  // get all posts
+  const allPosts = await postModel.find({})
 
   const { token } = context.req.cookies
-  if (!token) return { props: { user: null } }
+  if (!token) return { props: { user: null, allPosts } }
 
 
   const secretkey = process.env.PRIVATEKEY
@@ -48,15 +52,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const decoded = jwt.verify(token, secretkey) as JwtPayload
     const user = await userModel.findOne({ username: decoded.username })
 
+
     return {
       props: {
-        user: JSON.parse(JSON.stringify(user))
+        user: JSON.parse(JSON.stringify(user)),
+        allPosts,
       }
     }
   } catch {
     return {
       props: {
-        user: null
+        user: null,
+        allPosts
       }
     }
   }

@@ -1,3 +1,4 @@
+import { useLogOutModal } from '@/contexts/LogOutModalContext';
 import { useMobileMenu } from '@/contexts/MobileMenuContext';
 import UserInterface from '@/types/userType';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ type SideBarProps = {
 function SideBar({ user }: SideBarProps) {
 
     const { isMobileMenuOpen } = useMobileMenu()
-
+    const { showLogOutModal } = useLogOutModal()
 
     return (
         <div className={`${isMobileMenuOpen && 'translate-x-0 h-full'} absolute py-4 md:p-0 transition-all -translate-x-80 md:static md:!translate-x-0 rounded-md col-span-3 xl:col-span-2`}>
@@ -29,7 +30,7 @@ function SideBar({ user }: SideBarProps) {
                     <Link href={'/userposts'} className='bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-500 rounded-md transition-all py-1 px-4 hover:bg-gray-400'>my posts</Link>
                 </div>
 
-                <button className={`${!user && '!hidden'} md:hidden w-full text-left bg-gray-300 dark:bg-gray-700 rounded-full transition-all py-1 px-4 hover:bg-gray-400`}>logout</button>
+                <button onClick={showLogOutModal} className={`${!user && '!hidden'} md:hidden w-full text-left bg-gray-300 dark:bg-gray-700 rounded-md transition-all py-1 px-4 hover:bg-gray-400`}>logout</button>
 
             </aside>
         </div>

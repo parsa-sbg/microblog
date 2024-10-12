@@ -1,8 +1,14 @@
 import React from 'react'
 import PostBox from './PostBox/PostBox'
 import { useMobileMenu } from '@/contexts/MobileMenuContext'
+import PostInterface from '@/types/postType'
 
-function PostList() {
+type postListProps = {
+    posts: PostInterface[],
+    noPostMessage: string,
+}
+
+function PostList({ posts, noPostMessage }: postListProps) {
 
     const { isMobileMenuOpen } = useMobileMenu()
 
@@ -10,26 +16,17 @@ function PostList() {
     return (
         <div className={`grid grid-cols-12 pr-2 -mr-2 gap-4 overflow-x-scroll custom-scrollbar ${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 xl:col-span-10 rounded-md`}>
 
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
-            <div className="col-span-12 sm:col-span-6"><PostBox /></div>
+            {posts.length
 
-        </div>)
+                ? posts.map(post => (
+                    <div key={post._id} className="col-span-12 sm:col-span-6"><PostBox /></div>
+                ))
+
+                : <div className='h-full col-span-12 flex items-center justify-center'>{noPostMessage}</div>
+            }
+
+        </div>
+    )
 }
 
 export default PostList
