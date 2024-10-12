@@ -1,8 +1,9 @@
 import mongoose, { Document } from "mongoose";
+import UserInterface from "./userType";
 
 export default interface PostInterface extends Document {
-    _id: string
+    _id: mongoose.Types.ObjectId
     title: string,
     body: string,
-    user: mongoose.Types.ObjectId
+    user: UserInterface
 }

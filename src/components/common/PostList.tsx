@@ -19,7 +19,7 @@ function PostList({ posts, noPostMessage }: postListProps) {
             {posts.length
 
                 ? posts.map(post => (
-                    <div key={post._id} className="col-span-12 sm:col-span-6"><PostBox /></div>
+                    <div key={String(post._id)} className="col-span-12 sm:col-span-6"><PostBox user={post.user} body={post.body} /></div>
                 ))
 
                 : <div className='h-full col-span-12 flex items-center justify-center'>{noPostMessage}</div>

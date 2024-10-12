@@ -1,7 +1,7 @@
 import Header from '@/components/common/Header/Header'
 import SideBar from '@/components/common/SideBar'
 import { GetServerSideProps } from 'next'
-import React from 'react'
+import React, { useState } from 'react'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import LogOutModal from '@/components/common/logout/LogOutModal'
 import UserInterface from '@/types/userType'
@@ -22,7 +22,14 @@ type userPostsProps = {
 export default function UserPosts({ user, userPosts }: userPostsProps) {
 
     const { isMobileMenuOpen } = useMobileMenu()
+    const [posts, setPosts] = useState(userPosts)
 
+
+    const getUserPosts = async () => {
+        const res = await fetch('/api/posts/userposts')
+        const data = await res.json()
+        setPosts(data.posts)
+    }
 
     return (
         <div className="h-screen pt-[56.96px] md:pt-[60.96px] container">
@@ -34,7 +41,7 @@ export default function UserPosts({ user, userPosts }: userPostsProps) {
                 <SideBar user={user} />
 
                 {user
-                    ? <PostList noPostMessage='you have no posts ! create one .' posts={userPosts} />
+                    ? <PostList noPostMessage='you have no posts ! create one .' posts={posts} />
                     : <div className={`flex flex-col items-center justify-center ${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 xl:col-span-10`}>
                         <span className='mb-2'>You are not logged in yet.</span>
                         <LoginRegisterBtns />
@@ -43,7 +50,7 @@ export default function UserPosts({ user, userPosts }: userPostsProps) {
 
             </div>
             <LogOutModal />
-            <CreatePostModal userId={user?._id} />
+            <CreatePostModal getPosts={getUserPosts} />
 
         </div>
 
@@ -67,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const user = await userModel.findOne({ username: decoded.username })
 
         // get user posts
-        const userPosts = await postModel.find({ user: user?._id })
+        const userPosts = await postModel.find({ user: user?._id }).populate('user')
 
         return {
             props: {

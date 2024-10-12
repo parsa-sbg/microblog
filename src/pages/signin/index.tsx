@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 import { FaArrowLeft } from "react-icons/fa";
 import jwt from 'jsonwebtoken'
+import { userModel } from '@/models/userModel';
 
 
 type inputsValuesType = {
@@ -138,12 +139,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
     try {
-        jwt.verify(token, secretkey) as JwtPayload
+        const decoded = jwt.verify(token, secretkey) as JwtPayload
+        const user = userModel.findOne({ username: decoded.username })
 
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
+        if (!user) {
+            return {
+                redirect: {
+                    destination: '/',
+                    permanent: false
+                }
+            }
+        } else {
+            return {
+                props: {}
             }
         }
     } catch {

@@ -5,18 +5,21 @@ import PostInterface from "@/types/postType";
 
 
 type Data = {
-    posts: PostInterface[]
+    posts?: PostInterface[],
+    message: string
 };
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>,
 ) {
+
+    if (req.method !== "GET") return res.status(405).json({message: 'this methid is nnot valid.'})
+
+
     connectToDataBase()
 
-    const posts = await postModel.find({})
+    const posts = await postModel.find({}).populate('user')
 
-
-
-    res.status(200).json({ posts });
+    res.status(200).json({ posts, message: 'all posts.' });
 }

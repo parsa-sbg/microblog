@@ -2,7 +2,7 @@ import UserInterface from "@/types/userType";
 import mongoose, { Model } from "mongoose";
 
 
-const userSchema = new mongoose.Schema<UserInterface>({
+export const userSchema = new mongoose.Schema<UserInterface>({
     name: {
         type: String,
         required: true

@@ -10,6 +10,7 @@ import { postModel } from "@/models/postModel";
 import PostInterface from "@/types/postType";
 import CreatePostModal from "@/components/common/CreatePostModal/CreatePostModal";
 import { connectToDataBase } from "@/utils/db";
+import { useState } from "react";
 
 type HomeProps = {
   user: UserInterface | null
@@ -18,6 +19,13 @@ type HomeProps = {
 
 export default function Home({ user, allPosts }: HomeProps) {
 
+  const [posts, setPosts] = useState(allPosts)
+
+  const getAllPosts = async () => {
+    const res = await fetch('/api/posts')
+    const data = await res.json()
+    setPosts(data.posts)
+  }
 
   return (
 
@@ -29,11 +37,11 @@ export default function Home({ user, allPosts }: HomeProps) {
 
         <SideBar user={user} />
 
-        <PostList noPostMessage="there is no posts yet !" posts={allPosts} />
+        <PostList noPostMessage="there is no posts yet !" posts={posts} />
 
       </div>
       <LogOutModal />
-      <CreatePostModal userId={user?._id} />
+      <CreatePostModal getPosts={getAllPosts} />
     </div>
 
   );
@@ -44,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // get all posts
 
-  const allPosts = await postModel.find({})
+  const allPosts = await postModel.find({}).populate('user')
 
   const { token } = context.req.cookies
   if (!token) return { props: { user: null, allPosts } }
