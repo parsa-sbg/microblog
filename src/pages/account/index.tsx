@@ -11,6 +11,7 @@ import { userModel } from '@/models/userModel'
 import AccountDetails from '@/components/specific/account/AccountDetails'
 import LoginRegisterBtns from '@/components/common/Header/LoginRegisterBtns'
 import { useMobileMenu } from '@/contexts/MobileMenuContext'
+import ChsngePasswordModal from '@/components/specific/account/ChsngePasswordModal'
 
 type AccountProps = {
     user: UserInterface | null
@@ -20,6 +21,7 @@ function Account({ user }: AccountProps) {
 
     const { isMobileMenuOpen } = useMobileMenu()
     const [userinfos, setUserinfos] = useState(user)
+    const [isChangePassMpdalOpen, setIsChangePassMpdalOpen] = useState(false)
 
 
     const getMe = async () => {
@@ -39,7 +41,7 @@ function Account({ user }: AccountProps) {
                 <SideBar user={userinfos} />
 
                 {userinfos
-                    ? <AccountDetails getMe={getMe} user={userinfos} />
+                    ? <AccountDetails setIsChangePassModalOpen={setIsChangePassMpdalOpen} getMe={getMe} user={userinfos} />
                     : <div className={`flex flex-col items-center justify-center ${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 xl:col-span-10`}>
                         <span className='mb-2'>You are not logged in yet.</span>
                         <LoginRegisterBtns />
@@ -49,6 +51,7 @@ function Account({ user }: AccountProps) {
             </div>
             <LogOutModal />
             <CreatePostModal />
+            <ChsngePasswordModal setisModalOpen={setIsChangePassMpdalOpen} isModalOpen={isChangePassMpdalOpen} />
         </div>
     )
 }

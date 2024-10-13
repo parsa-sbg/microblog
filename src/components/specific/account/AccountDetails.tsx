@@ -8,10 +8,11 @@ import { RxCrossCircled } from 'react-icons/rx'
 
 type AccountDetailsProps = {
     user: UserInterface,
-    getMe: () => void
+    getMe: () => void,
+    setIsChangePassModalOpen: (isOpen: boolean) => void
 }
 
-function AccountDetails({ user, getMe }: AccountDetailsProps) {
+function AccountDetails({ user, getMe, setIsChangePassModalOpen }: AccountDetailsProps) {
 
     const [name, setName] = useState(user?.name)
     const [username, setUsername] = useState(user?.username)
@@ -76,7 +77,7 @@ function AccountDetails({ user, getMe }: AccountDetailsProps) {
             <div className='max-h-fit row-span-1 col-span-12 mb-4 border-2 border-secondarydark p-3 rounded-md flex justify-between items-center'>
                 <h1 className='font-bold text-xl'>your account</h1>
                 <div className='flex items-center gap-5'>
-                    <button className='bg-gray-300 dark:bg-gray-700 px-2 py-0.5 text-sm rounded-md hover:bg-gray-400 transition-all hover:!bg-opacity-50'>change password</button>
+                    <button onClick={() => {setIsChangePassModalOpen(true)}} className='bg-gray-300 dark:bg-gray-700 px-2 py-0.5 text-sm rounded-md hover:bg-gray-400 transition-all hover:!bg-opacity-50'>change password</button>
                     <div onClick={refreshClickHandler} className={`${isRefreshing && 'animate-spin'} cursor-pointer`}><LuRefreshCw size={25} /></div>
                 </div>
             </div>
