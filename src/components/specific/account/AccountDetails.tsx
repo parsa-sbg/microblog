@@ -13,7 +13,7 @@ function AccountDetails({ user }: AccountDetailsProps) {
 
     const [name, setName] = useState(user?.name)
     const [username, setUsername] = useState(user?.username)
-    const [isEdditModeActive, setIsEdditModeActive] = useState(false)
+    const [isEditModeActive, setIsEdditModeActive] = useState(false)
 
     const { isMobileMenuOpen } = useMobileMenu()
     const [isRefreshing, setIsRefreshing] = useState(false)
@@ -33,6 +33,25 @@ function AccountDetails({ user }: AccountDetailsProps) {
         setIsEdditModeActive(false)
         setName(user.name)
         setUsername(user.username)
+    }
+
+    const updateUser = async () => {
+        
+        const res = await fetch('/api/users/update',{
+            method: "PUT",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                name
+            })
+        })
+        const data = await res.json()
+        
+        console.log(res);
+        console.log(data);
+
     }
 
     return (
@@ -59,7 +78,7 @@ function AccountDetails({ user }: AccountDetailsProps) {
                         <input className='bg-transparent border border-main py-2 px-4 rounded-md outline-none read-only:text-gray-500 read-only:cursor-not-allowed'
                             value={name}
                             onChange={e => { setName(e.target.value) }}
-                            readOnly={!isEdditModeActive}
+                            readOnly={!isEditModeActive}
                             type="text" />
                     </div>
 
@@ -68,16 +87,16 @@ function AccountDetails({ user }: AccountDetailsProps) {
                         <input className='bg-transparent border border-main py-2 px-4 rounded-md outline-none read-only:text-gray-500 read-only:cursor-not-allowed'
                             value={username}
                             onChange={e => { setUsername(e.target.value) }}
-                            readOnly={!isEdditModeActive}
+                            readOnly={!isEditModeActive}
                             type="text" />
                     </div>
 
                     <div className='flex gap-1 max-w-60'>
-                        <button onClick={cancelBtnClickHandler} className={`${isEdditModeActive && '!block'} hidden max-w-52 w-full py-1 px-2 bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30`}>cancel</button>
+                        <button onClick={cancelBtnClickHandler} className={`${isEditModeActive && '!block'} hidden max-w-52 w-full py-1 px-2 bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30`}>cancel</button>
                         <button
-                            onClick={isEdditModeActive ? () => { } : activeEditMode}
+                            onClick={isEditModeActive ? updateUser : activeEditMode}
                             className='bg-green-500 dark:bg-green-800 hover:bg-green-600 dark:hover:bg-green-900 transition-colors py-2 px-4 rounded-md outline-none'>
-                            {isEdditModeActive
+                            {isEditModeActive
                                 ? 'submit'
                                 : 'change infos'
                             }
