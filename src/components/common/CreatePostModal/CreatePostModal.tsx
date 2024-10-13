@@ -5,7 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 
 type CreatePostModalProps = {
-    getPosts: () => void
+    getPosts?: () => void
 }
 
 function CreatePostModal({ getPosts }: CreatePostModalProps) {
@@ -42,7 +42,7 @@ function CreatePostModal({ getPosts }: CreatePostModalProps) {
 
         if (res.status == 201) {
             setCreationstatus('created')
-            getPosts()
+            if (getPosts) getPosts()
             setTimeout(() => {
                 closeModal()
             }, 1000);

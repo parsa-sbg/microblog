@@ -1,0 +1,95 @@
+import { useMobileMenu } from '@/contexts/MobileMenuContext'
+import UserInterface from '@/types/userType'
+import React, { useState } from 'react'
+import { FaRegUser } from 'react-icons/fa'
+import { LuRefreshCw } from 'react-icons/lu'
+
+
+type AccountDetailsProps = {
+    user: UserInterface
+}
+
+function AccountDetails({ user }: AccountDetailsProps) {
+
+    const [name, setName] = useState(user?.name)
+    const [username, setUsername] = useState(user?.username)
+    const [isEdditModeActive, setIsEdditModeActive] = useState(false)
+
+    const { isMobileMenuOpen } = useMobileMenu()
+    const [isRefreshing, setIsRefreshing] = useState(false)
+
+    const refreshClickHandler = () => {
+        setIsRefreshing(true)
+        setTimeout(() => {
+            setIsRefreshing(false)
+        }, 1000);
+    }
+
+    const activeEditMode = () => {
+        setIsEdditModeActive(true)
+    }
+
+    const cancelBtnClickHandler = () => {
+        setIsEdditModeActive(false)
+        setName(user.name)
+        setUsername(user.username)
+    }
+
+    return (
+        <div className={`overflow-x-scroll custom-scrollbar ${isMobileMenuOpen && 'translate-x-[180px]'} transition-all md:!translate-x-0 col-span-12 h-full row-span-2 md:col-span-9 xl:col-span-10 rounded-md`}>
+
+            <div className='max-h-fit row-span-1 col-span-12 mb-4 border-2 border-secondarydark p-3 rounded-md flex justify-between items-center'>
+                <h1 className='font-bold text-xl'>your account</h1>
+                <div className='flex items-center gap-5'>
+                    <button className='bg-gray-300 dark:bg-gray-700 px-2 py-0.5 text-sm rounded-md hover:bg-gray-400 transition-all hover:!bg-opacity-50'>change password</button>
+                    <div onClick={refreshClickHandler} className={`${isRefreshing && 'animate-spin'} cursor-pointer`}><LuRefreshCw size={25} /></div>
+                </div>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+
+                <div className='mx-auto md:mx-0 bg-gray-300 p-10 rounded-full w-fit dark:bg-gray-700'>
+                    <FaRegUser size={50} />
+                </div>
+
+                <div className='flex flex-col md:flex-row gap-5 items-center md:items-end flex-wrap'>
+
+                    <div className='flex flex-col gap-1 max-w-60'>
+                        <span className='font-semibold'>name</span>
+                        <input className='bg-transparent border border-main py-2 px-4 rounded-md outline-none read-only:text-gray-500 read-only:cursor-not-allowed'
+                            value={name}
+                            onChange={e => { setName(e.target.value) }}
+                            readOnly={!isEdditModeActive}
+                            type="text" />
+                    </div>
+
+                    <div className='flex flex-col gap-1 max-w-60'>
+                        <span className='font-semibold'>username</span>
+                        <input className='bg-transparent border border-main py-2 px-4 rounded-md outline-none read-only:text-gray-500 read-only:cursor-not-allowed'
+                            value={username}
+                            onChange={e => { setUsername(e.target.value) }}
+                            readOnly={!isEdditModeActive}
+                            type="text" />
+                    </div>
+
+                    <div className='flex gap-1 max-w-60'>
+                        <button onClick={cancelBtnClickHandler} className={`${isEdditModeActive && '!block'} hidden max-w-52 w-full py-1 px-2 bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30`}>cancel</button>
+                        <button
+                            onClick={isEdditModeActive ? () => { } : activeEditMode}
+                            className='bg-green-500 dark:bg-green-800 hover:bg-green-600 dark:hover:bg-green-900 transition-colors py-2 px-4 rounded-md outline-none'>
+                            {isEdditModeActive
+                                ? 'submit'
+                                : 'change infos'
+                            }
+
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+export default AccountDetails

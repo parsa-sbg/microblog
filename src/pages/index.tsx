@@ -50,12 +50,15 @@ export default function Home({ user, allPosts }: HomeProps) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   connectToDataBase()
 
-  // get all posts
-
   const allPosts = await postModel.find({}).populate('user')
 
   const { token } = context.req.cookies
-  if (!token) return { props: { user: null, allPosts } }
+  if (!token) return {
+    props: {
+      user: null,
+      allPosts: JSON.parse(JSON.stringify(allPosts)),
+    }
+  }
 
 
   const secretkey = process.env.PRIVATEKEY
@@ -76,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         user: null,
-        allPosts
+        allPosts: JSON.parse(JSON.stringify(allPosts)),
       }
     }
   }
