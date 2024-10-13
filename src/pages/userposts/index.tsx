@@ -74,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const user = await userModel.findOne({ username: decoded.username })
 
         // get user posts
-        const userPosts = await postModel.find({ user: user?._id }).populate('user')
+        const userPosts = await postModel.find({ user: user?._id }).populate('user').sort({ createdAt: -1 })
 
         return {
             props: {

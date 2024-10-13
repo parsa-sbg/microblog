@@ -1,4 +1,4 @@
-import PostInterface from "@/types/postType"; 
+import PostInterface from "@/types/postType";
 import mongoose, { Model } from "mongoose";
 
 
@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema<PostInterface>({
         type: String,
         required: false
     },
-    
+
     body: {
         type: String,
         required: true
@@ -17,7 +17,9 @@ const postSchema = new mongoose.Schema<PostInterface>({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     }
-    
+
+}, {
+    timestamps: true
 })
 
 

@@ -50,7 +50,7 @@ export default function Home({ user, allPosts }: HomeProps) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   connectToDataBase()
 
-  const allPosts = await postModel.find({}).populate('user')
+  const allPosts = await postModel.find({}).populate('user').sort({ createdAt: -1 })
 
   const { token } = context.req.cookies
   if (!token) return {

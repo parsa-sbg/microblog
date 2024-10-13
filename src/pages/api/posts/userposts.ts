@@ -34,7 +34,7 @@ export default async function handler(
         const user = await userModel.findOne({ username: decoded.username })
         if (!user) return res.status(404).json({ message: 'user not found' })
 
-        const userposts = await postModel.find({ user: user._id }).populate('user')
+        const userposts = await postModel.find({ user: user._id }).populate('user').sort({ createdAt: -1 })
 
         return res.status(200).json({ message: 'user posts.', posts: userposts })
 
