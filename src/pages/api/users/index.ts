@@ -1,4 +1,3 @@
-import { userModel } from "@/models/userModel";
 import { connectToDataBase } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
