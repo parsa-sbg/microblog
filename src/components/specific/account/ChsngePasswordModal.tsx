@@ -36,7 +36,6 @@ function ChsngePasswordModal({ isModalOpen, setisModalOpen }: ChsngePasswordModa
                 oldPassword: oldPass
             })
         })
-        const data = await res.json()
 
         switch (res.status) {
             case 200: {
@@ -72,8 +71,6 @@ function ChsngePasswordModal({ isModalOpen, setisModalOpen }: ChsngePasswordModa
 
 
         }
-        console.log(res);
-        console.log(data);
 
     }
 
@@ -99,7 +96,7 @@ function ChsngePasswordModal({ isModalOpen, setisModalOpen }: ChsngePasswordModa
 
                 <div className='flex justify-center gap-3'>
                     <button onClick={closeModal} className='max-w-52 w-full py-2 px-5 text-xl bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30'>cancel</button>
-                    <button onClick={changeBtnClickHandler} className={`min-h-full flex justify-center items-center max-w-52 w-full py-2 px-5 text-xl bg-mainlight rounded-md`}>
+                    <button onClick={changeStatus == 'notSent' ? changeBtnClickHandler : () => { }} className={`min-h-full flex justify-center items-center max-w-52 w-full py-2 px-5 text-xl bg-mainlight rounded-md`}>
 
                         {changeStatus == 'notSent' ? 'change'
                             : changeStatus == 'loading' ? <div className='animate-spin w-3 h-3 rounded-full border-r-2 border-white'></div>
