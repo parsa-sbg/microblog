@@ -10,7 +10,8 @@ import { generateToken } from "@/utils/token";
 type Data = {
     message: string;
     targetError?: string,
-    user?: UserInterface
+    user?: UserInterface,
+    error?: object
 };
 
 export default async function handler(
@@ -37,13 +38,8 @@ export default async function handler(
     try {
         const decoded = jwt.verify(token, secretkey) as JwtPayload
 
-        const user = await userModel.findOneAndUpdate({ username: decoded.username }, { username, name })
+        const user = await userModel.findOneAndUpdate({ username: decoded.username }, { username, name }, { new: true })
         if (!user) return res.status(400).json({ message: 'update failed.' })
-
-        // Duplicate username check
-        const duplicateUsernameCheckResult = await userModel.findOne({ username })
-        if (duplicateUsernameCheckResult && username !== user.username) return res.status(422).json({ message: 'username already taken', targetError: 'username' })
-
 
         const newUserToken = generateToken({ username: user.username })
         if (!newUserToken) return res.status(500).json({ message: 'generate token error' })
@@ -58,9 +54,14 @@ export default async function handler(
             .status(200)
             .json({ message: 'user updated successfully', user })
 
-    } catch (err) {
-        console.log(err);
-        return res.status(422).json({ message: 'token is not valid | user not found' })
+    } catch (error) {
+        if (typeof error == 'object' && error !== null && 'code' in error) {
+            if (error.code == 11000) {
+                return res.status(422).json({ message: 'this username already taken', error })
+            }
+        } else {
+            return res.status(422).json({ message: 'token is not valid | user not found' })
+        }
     }
 
 }
