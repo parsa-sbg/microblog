@@ -1,24 +1,27 @@
 import { useMobileMenu } from '@/contexts/MobileMenuContext'
 import UserInterface from '@/types/userType'
 import React, { useState } from 'react'
-import { FaRegUser } from 'react-icons/fa'
+import { FaCheckCircle, FaRegUser } from 'react-icons/fa'
 import { LuRefreshCw } from 'react-icons/lu'
+import { RxCrossCircled } from 'react-icons/rx'
 
 
 type AccountDetailsProps = {
-    user: UserInterface
+    user: UserInterface,
+    getMe: () => void
 }
 
-function AccountDetails({ user }: AccountDetailsProps) {
+function AccountDetails({ user, getMe }: AccountDetailsProps) {
 
     const [name, setName] = useState(user?.name)
     const [username, setUsername] = useState(user?.username)
-    const [isEditModeActive, setIsEdditModeActive] = useState(false)
+    const [editInfoStatus, setEditInfoStatus] = useState<'notSent' | 'editmode' | 'loading' | 'success' | 'error'>('notSent')
 
     const { isMobileMenuOpen } = useMobileMenu()
     const [isRefreshing, setIsRefreshing] = useState(false)
 
     const refreshClickHandler = () => {
+        getMe()
         setIsRefreshing(true)
         setTimeout(() => {
             setIsRefreshing(false)
@@ -26,21 +29,21 @@ function AccountDetails({ user }: AccountDetailsProps) {
     }
 
     const activeEditMode = () => {
-        setIsEdditModeActive(true)
+        setEditInfoStatus('editmode')
     }
 
     const cancelBtnClickHandler = () => {
-        setIsEdditModeActive(false)
+        setEditInfoStatus('notSent')
         setName(user.name)
         setUsername(user.username)
     }
 
     const updateUser = async () => {
-        
-        const res = await fetch('/api/users/update',{
+        setEditInfoStatus('loading')
+        const res = await fetch('/api/users/update', {
             method: "PUT",
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 username,
@@ -48,9 +51,22 @@ function AccountDetails({ user }: AccountDetailsProps) {
             })
         })
         const data = await res.json()
-        
-        console.log(res);
         console.log(data);
+
+
+        if (res.status == 200) {
+            setEditInfoStatus('success')
+        } else {
+            setEditInfoStatus('error')
+            setName(user.name)
+            setUsername(user.username)
+        }
+
+        getMe()
+
+        setTimeout(() => {
+            setEditInfoStatus('notSent')
+        }, 1000);
 
     }
 
@@ -78,7 +94,7 @@ function AccountDetails({ user }: AccountDetailsProps) {
                         <input className='bg-transparent border border-main py-2 px-4 rounded-md outline-none read-only:text-gray-500 read-only:cursor-not-allowed'
                             value={name}
                             onChange={e => { setName(e.target.value) }}
-                            readOnly={!isEditModeActive}
+                            readOnly={editInfoStatus !== 'editmode'}
                             type="text" />
                     </div>
 
@@ -87,18 +103,21 @@ function AccountDetails({ user }: AccountDetailsProps) {
                         <input className='bg-transparent border border-main py-2 px-4 rounded-md outline-none read-only:text-gray-500 read-only:cursor-not-allowed'
                             value={username}
                             onChange={e => { setUsername(e.target.value) }}
-                            readOnly={!isEditModeActive}
+                            readOnly={editInfoStatus !== 'editmode'}
                             type="text" />
                     </div>
 
                     <div className='flex gap-1 max-w-60'>
-                        <button onClick={cancelBtnClickHandler} className={`${isEditModeActive && '!block'} hidden max-w-52 w-full py-1 px-2 bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30`}>cancel</button>
+                        <button onClick={cancelBtnClickHandler} className={`${editInfoStatus !== 'notSent' && '!block'} hidden max-w-52 w-full py-1 px-2 bg-gray-300 text-textcolordark rounded-md bg-opacity-70 dark:bg-opacity-30`}>cancel</button>
                         <button
-                            onClick={isEditModeActive ? updateUser : activeEditMode}
-                            className='bg-green-500 dark:bg-green-800 hover:bg-green-600 dark:hover:bg-green-900 transition-colors py-2 px-4 rounded-md outline-none'>
-                            {isEditModeActive
-                                ? 'submit'
-                                : 'change infos'
+                            onClick={editInfoStatus == 'editmode' ? updateUser : activeEditMode}
+                            className='bg-green-500 dark:bg-green-800 hover:bg-green-600 dark:hover:bg-green-900 transition-colors min-h-10 py-2 px-4 rounded-md outline-none'>
+                            {editInfoStatus == 'notSent'
+                                ? 'change infos'
+                                : editInfoStatus == 'editmode' ? 'submit'
+                                    : editInfoStatus == 'loading' ? <div className='animate-spin w-3 h-3 rounded-full border-r-2 border-white'></div>
+                                        : editInfoStatus == 'success' ? <FaCheckCircle className='text-green-600' />
+                                            : editInfoStatus == 'error' && <RxCrossCircled className='text-red-600' />
                             }
 
                         </button>
