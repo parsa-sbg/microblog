@@ -20,8 +20,8 @@ const config: Config = {
       },
 
       colors: {
-        main: '#040F75',
-        mainlight: '#628EFF',
+        main: '#628EFF',
+        mainlight: '#040F75',
 
         secondary: '#628EFF',
         secondarydark: '#580475',
